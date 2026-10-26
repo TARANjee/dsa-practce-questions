@@ -1,60 +1,51 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
+
+#include <bits/stdc++.h>
 using namespace std;
 
-class FindSumPairs {
-public:
-    vector<int> vec1, vec2;
-    unordered_map<int, int> mp;
+vector<vector<int>> transpose(vector<vector<int>>& nums) {
+    int row = nums.size();
+    int col = nums[0].size();
 
-    FindSumPairs(vector<int>& nums1, vector<int>& nums2) {
-        vec1 = nums1;
-        vec2 = nums2;
+    vector<vector<int>> ans(col,vector<int>(row));
 
-        for (int i = 0; i < vec2.size(); i++) {
-            mp[vec2[i]]++;
+    for (int i = 0; i < col; i++) {
+        for (int j = 0; j < row; j++) {
+           ans[i][j]=nums[j][i];
         }
     }
 
-    void add(int index, int val) {
-        mp[vec2[index]]--;
-        vec2[index] += val;
-        mp[vec2[index]]++;
-    }
-
-    int count(int tot) {
-        int cnt = 0;
-
-        for (int i = 0; i < vec1.size(); i++) {
-            int comp = tot - vec1[i];
-
-            if (mp.count(comp)) {
-                cnt += mp[comp];
-            }
-        }
-
-        return cnt;
-    }
-};
+    return ans;
+}
 
 int main() {
-    vector<int> nums1 = {1, 1, 2, 2, 2, 3};
-    vector<int> nums2 = {1, 4, 5, 2, 5, 4};
+    int row, col;
 
-    FindSumPairs* obj = new FindSumPairs(nums1, nums2);
+    cout << "Enter the row of matrix: ";
+    cin >> row;
 
-    cout << obj->count(7) << endl;  // Output: 8
+    cout << "Enter the col of matrix: ";
+    cin >> col;
 
-    obj->add(3, 2);
+    vector<vector<int>> arr(row, vector<int>(col));
 
-    cout << obj->count(8) << endl;  // Output: 2
+    cout << "Enter the " << row * col << " elements: ";
 
-    obj->add(0, 1);
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            cin >> arr[i][j];
+        }
+    }
 
-    cout << obj->count(7) << endl; //Output: 9
+    vector<vector<int>> ans = transpose(arr);
 
-    delete obj;
+    cout << "\nTranspose of the matrix:\n";
+
+    for (int i = 0; i < ans.size(); i++) {
+        for (int j = 0; j < ans[i].size(); j++) {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
 
     return 0;
 }
